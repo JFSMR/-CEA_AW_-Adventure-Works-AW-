@@ -1,0 +1,19 @@
+sources:
+  - name: erp
+    database: fea25_05
+    schema: raw_adventure_works
+    tables:
+      - name: person_address
+      - name: sales_salesorderheader
+      - name: sales_salesorderdetail
+      - name: sales_salesorderheadersalesreason
+      - name: sales_customer
+      - name: person_person
+      - name: sales_creditcard
+      - name: production_product
+      - name: production_productsubcategory
+      - name: production_productcategory
+      - name: sales_salesreason
+      - name: sales_salesterritory
+      - name: person_stateprovince
+      - name: person_countryregion
