@@ -1,0 +1,26 @@
+
+
+models:
+  - name: int_product_enriched
+    description: Table containing enriched product information with subcategory and category details.
+    columns:
+      - name: product_pk
+        description: Surrogate key for each product record.
+
+      - name: name_product
+        description: Name of the product.
+
+      - name: list_price
+        description: List price of the product.
+
+      - name: product_subcategory_id
+        description: Foreign key referencing the subcategory of the product.
+
+      - name: name_subcategory
+        description: Name of the product subcategory.
+
+      - name: product_category_id
+        description: Foreign key referencing the category of the product.
+
+      - name: name_category
+        description: Name of the product category.

@@ -9,12 +9,17 @@ source as (
 renamed as (
 
     select
-     CAST(creditcardid AS INT) AS creditcard_pk
-    , CAST(cardtype AS VARCHAR) AS card_type
-    , CAST(cardnumber AS VARCHAR) AS card_number
-    , CAST(expmonth AS INT) AS expmonth
-    , CAST(expyear AS INT) AS exp_year
-    , CAST(modifieddate AS DATE) AS modified_date
+
+     -- Colunas úteis para análise de negócio
+     CAST(creditcardid AS INT)        AS creditcard_pk
+     , CAST(cardtype AS VARCHAR)      AS card_type
+     , CAST(cardnumber AS VARCHAR)    AS card_number
+
+     ---Colunas técnicas ou complementares que não respondem diretamente às perguntas
+     --, CAST(expmonth AS INT)        AS expmonth
+     --, CAST(expyear AS INT)         AS exp_year
+     --, CAST(modifieddate AS DATE)   AS modified_date 
+     -- Não usaremos no projeto 
 
     from source
 

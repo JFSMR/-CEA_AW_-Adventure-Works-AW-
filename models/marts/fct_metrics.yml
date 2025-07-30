@@ -1,0 +1,58 @@
+
+
+models:
+  - name: sales_order_mart
+    description: |
+      Data mart model consolidating sales order facts with enriched dimension data,
+      optimized for analytics and reporting of sales performance metrics.
+    columns:
+      - name: sales_order_id
+        description: Primary key of the sales order.
+        tests:
+          - unique
+          - not_null
+
+      - name: order_date
+        description: Date when the order was placed.
+        tests:
+          - not_null
+
+      - name: customer_id
+        description: Foreign key referencing the customer dimension.
+        tests:
+          - not_null
+
+      - name: product_id
+        description: Foreign key referencing the product dimension.
+        tests:
+          - not_null
+
+      - name: territory_id
+        description: Foreign key referencing the sales territory dimension.
+        tests:
+          - not_null
+
+      - name: sales_reason_id
+        description: Foreign key referencing the sales reason dimension.
+        tests:
+          - not_null
+
+      - name: total_order_quantity
+        description: Total quantity of products ordered in the sales order.
+        tests:
+          - not_null
+
+      - name: total_gross_sales
+        description: Total gross sales amount for the order (unit price * quantity).
+        tests:
+          - not_null
+
+      - name: total_net_sales
+        description: Total net sales amount after discounts.
+        tests:
+          - not_null
+
+      - name: order_line_count
+        description: Number of distinct items or lines in the sales order.
+        tests:
+          - not_null

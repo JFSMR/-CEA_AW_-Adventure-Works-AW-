@@ -1,26 +1,20 @@
+with 
 
-with source as (
+source as (
+
     select * from {{ source('erp', 'sales_salesorderheadersalesreason') }}
+
 ),
 
 renamed as (
-    select                        
-        cast(salesreasonid as INT) as sales_reason_pk
-        , cast(salesorderid as INT) as salesorder_fk    
-        --  , cast(modifieddate as DATETIME) as modified_date
-        , ROW_NUMBER() OVER (PARTITION BY salesorderid ORDER BY salesreasonid) as rowN
+
+    select distinct
+     {{ dbt_utils.generate_surrogate_key(['salesorderid', 'salesreasonid']) }} as sales_order_reason_pk
+        ,cast(salesorderid as INT) as sales_order_pk
+        ,cast(salesreasonid as INT) as sales_reason_fk
+        --, CAST(modifieddate AS DATE) AS modified_date
     from source
+
 )
 
-select 
-    sales_reason_pk
-    ,salesorder_fk
-    --,modified_date
-from renamed
-where rowN = 1
-order by salesorder_fk
-
-
-
-
-
+select * from renamed

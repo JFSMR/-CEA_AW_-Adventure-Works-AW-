@@ -26,15 +26,7 @@ sources:
               - unique
               - not_null
 
-      - name: sales_salesorderheadersalesreason
-        columns:
-          - name: salesreasonid
-            tests:
-              - not_null
-          - name: salesorderid
-            tests:
-              - not_null
-        # Nenhum teste de unicidade aqui
+      
 
       - name: sales_customer
         columns:
@@ -78,12 +70,6 @@ sources:
               - unique
               - not_null
 
-      - name: sales_salesperson
-        columns:
-          - name: businessentityid
-            tests:
-              - unique
-              - not_null
 
       - name: sales_salesterritory
         columns:
@@ -105,3 +91,17 @@ sources:
             tests:
               - unique
               - not_null
+      - name: SALES_SALESREASON
+        columns:
+          - name: SALESREASONID
+            tests:
+                - unique
+                - not_null
+      - name: sales_salesorderheadersalesreason
+        columns:
+          - name: SALESORDERID
+        data_tests:
+          - dbt_utils.unique_combination_of_columns:
+               combination_of_columns:          
+                  - salesorderid
+                  - salesreasonid

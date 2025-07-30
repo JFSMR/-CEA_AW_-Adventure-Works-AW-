@@ -1,0 +1,18 @@
+
+
+models:
+  - name: dim_address
+    description: Dimension table with enriched address details including state and country information.
+    columns:
+      - name: address_pk
+        description: Surrogate key for each address record.
+      - name: address
+        description: Street name of the address.
+      - name: city
+        description: Name of the city where the address is located.
+      - name: name_state
+        description: Name of the associated state or province.
+      - name: state_province_cod
+        description: Code of the state or province.
+      - name: name_country
+        description: Name of the country where the address is located.
