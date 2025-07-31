@@ -1,0 +1,20 @@
+
+
+models:
+  - name: dim_customers
+    description: Dimension table containing enriched customer information including personal and territorial details.
+    columns:
+      - name: customer_pk
+        description: Surrogate key for each customer record.
+      - name: full_name
+        description: Full name of the customer, composed of first and last name.
+      - name: person_id
+        description: Foreign key referencing the person associated with the customer.
+      - name: territory_id
+        description: Foreign key referencing the sales territory associated with the customer.
+      - name: person_type
+        description: Type classification of the person (e.g., individual or store).
+      - name: country_name
+        description: Name of the country associated with the customer's territory.
+      - name: country_region
+        description: Foreign key referencing the broader country region.

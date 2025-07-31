@@ -1,8 +1,8 @@
 with
-     in_address as (
+     int_address as (
         select *
         from {{ ref('int_address_enriched') }}
     )
 select *
-from  in_address
+from  int_address
 

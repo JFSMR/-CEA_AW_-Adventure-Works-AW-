@@ -1,0 +1,64 @@
+
+models:
+  - name: fct_sales_metrics
+    description: >
+      Final fact model that references `int_metrics_sales`, containing calculated
+      sales metrics including gross and net totals, order data, and sales-related
+      foreign keys.
+      Acts as an interface layer between the intermediate metrics and reporting tools.
+    columns:
+      - name: sales_item_sk
+        description: Surrogate key for the sales item.
+        tests:
+          - not_null
+
+      - name: sales_order_detail_pk
+        description: Primary key for the sales order detail.
+
+      - name: sales_order_fk
+        description: Foreign key to the sales order header.
+
+      - name: product_fk
+        description: Foreign key to the product.
+
+      - name: specialoffer_fk
+        description: Foreign key to the special offer.
+
+      - name: customer_fk
+        description: Foreign key to the customer.
+
+      - name: territory_fk
+        description: Foreign key to the sales territory.
+
+      - name: address_fk
+        description: Foreign key to the billing or shipping address.
+
+      - name: creditcard_fk
+        description: Foreign key to the credit card used in the order.
+
+      - name: salesperson_fk
+        description: Foreign key to the assigned salesperson.
+
+      - name: order_quantity
+        description: Number of items ordered.
+
+      - name: discount
+        description: Discount applied to the item (as a decimal).
+
+      - name: gross_total
+        description: Gross value before discount = unit_price * order_quantity.
+
+      - name: net_total
+        description: Net value after discount = unit_price * (1 - discount) * order_quantity.
+
+      - name: status
+        description: Order status code.
+
+      - name: sub_total
+        description: Order subtotal from the ERP.
+
+      - name: total_due
+        description: Final total due from the ERP.
+
+      - name: order_date
+        description: Date the order was placed.

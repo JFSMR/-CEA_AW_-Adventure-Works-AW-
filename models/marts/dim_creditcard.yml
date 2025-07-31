@@ -1,0 +1,12 @@
+
+
+models:
+  - name: dim_creditcard
+    description: Dimension table containing enriched credit card information.
+    columns:
+      - name: creditcard_pk
+        description: Surrogate key for each credit card record.
+      - name: card_type
+        description: Type or brand of the credit card (e.g., Visa, MasterCard).
+      - name: card_number
+        description: Encrypted or masked credit card number.

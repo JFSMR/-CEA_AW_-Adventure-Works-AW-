@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: dim_product
+    description: >
+      Dimensional model for products including category and subcategory information,
+      product name, and list price. Performs joins between the product, subcategory,
+      and category tables to enrich the product dimension.
+    columns:
+      - name: product_pk
+        description: Primary key of the product.
+        tests:
+          - unique
+          - not_null
+
+      - name: product_subcategory_fk
+        description: Foreign key to the product subcategory.
+
+      - name: name_product
+        description: Name of the product.
+
+      - name: list_price
+        description: Product list price.
+
+      - name: category_name
+        description: Name of the main product category.
+
+      - name: sub_name_catergory
+        description: Name of the product subcategory.

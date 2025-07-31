@@ -9,11 +9,12 @@ source as (
 renamed as (
 
     select
-    CAST(productcategoryid AS INT) AS product_category_pk
-    , CAST(name AS VARCHAR) AS name   
-    , CAST(modifieddate AS DATE) AS modified_date
-    , CAST(rowguid AS VARCHAR) AS rowguid
+        cast(productcategoryid AS INT) AS produto_category_pk
+        , cast(name AS VARCHAR )       AS category_name
 
+
+       -- , casts(rowguid
+        --, casts(modifieddate
 
     from source
 
