@@ -1,7 +1,7 @@
 
 
 models:
-  - name: int_creditcard_enriched
+  - name: int_creditcard
     description: Table containing enriched credit card information.
     columns:
       - name: creditcard_pk

@@ -1,7 +1,7 @@
-
+version: 2
 
 models:
-  - name: dim_customers
+  - name: dim_customer
     description: Dimension table containing enriched customer information including personal and territorial details.
     columns:
       - name: customer_pk
