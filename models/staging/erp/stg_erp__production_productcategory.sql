@@ -9,15 +9,12 @@ source as (
 renamed as (
 
     select
+        cast(productcategoryid AS INT) AS produto_category_pk
+        , cast(name AS VARCHAR )       AS category_name
 
-     --  Colunas úteis para análise de negócio
-    CAST(productcategoryid AS INT)   AS product_category_pk
-    , CAST(name AS VARCHAR)          AS productc_name  
 
-    -- Colunas técnicas ou complementares que não respondem diretamente às perguntas
-    --, CAST(modifieddate AS DATE)     AS modified_date
-    -- , CAST(rowguid AS VARCHAR)       AS rowguid
-
+       -- , casts(rowguid
+        --, casts(modifieddate
 
     from source
 

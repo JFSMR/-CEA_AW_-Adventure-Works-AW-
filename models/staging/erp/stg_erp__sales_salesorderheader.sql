@@ -16,12 +16,13 @@ SELECT
     ,CAST(creditcardid AS INT)                   AS creditcard_fk
     ,CAST(salespersonid AS INT)                  AS salesperson_fk                
     ,CAST(status AS INT)                         AS status 
-    ,CAST(subtotal AS NUMERIC(18,2))             AS sub_total                  
-    ,CAST(totaldue AS NUMERIC(18,2))             AS total_due                 
-    ,CAST(orderdate AS DATE)                     AS order_date                  
+    ,CAST(subtotal AS NUMERIC(18,4))             AS sub_total                     
+    ,CAST(totaldue AS NUMERIC(18,4))             AS total_due                 
+    ,CAST(orderdate AS DATE)                     AS order_date 
+    ,CAST(freight AS NUMERIC(18,4))             AS freight                   
 
     -- Colunas não necessárias para responder às perguntas de negócio
-    -- ,CAST(freight AS NUMERIC(18,2))             AS freight                     
+    --                    
     -- ,CAST(taxamt AS NUMERIC(18,2))              AS taxamt                    
     -- ,CAST(shiptoaddressid AS INT)               AS shiptoaddress_fk       
     -- ,CAST(shipmethodid AS INT)                  AS shipmethod_fk      

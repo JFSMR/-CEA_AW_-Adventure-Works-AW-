@@ -1,14 +1,14 @@
+version: 2
 
 models:
-  - name: fct_sales_metrics
+  - name: fct_sales
     description: >
-      Final fact model that references `int_metrics_sales`, containing calculated
-      sales metrics including gross and net totals, order data, and sales-related
-      foreign keys.
-      Acts as an interface layer between the intermediate metrics and reporting tools.
+      Fact table containing enriched sales data. Combines sales order details
+      with order headers to calculate gross and net sales totals, along with
+      customer, product, and sales context information.
     columns:
       - name: sales_item_sk
-        description: Surrogate key for the sales item.
+        description: Surrogate key for the sales item (detail level).
         tests:
           - not_null
 
@@ -31,34 +31,38 @@ models:
         description: Foreign key to the sales territory.
 
       - name: address_fk
-        description: Foreign key to the billing or shipping address.
+        description: Foreign key to the billing/shipping address.
 
       - name: creditcard_fk
         description: Foreign key to the credit card used in the order.
 
       - name: salesperson_fk
-        description: Foreign key to the assigned salesperson.
+        description: Foreign key to the salesperson responsible for the order.
 
       - name: order_quantity
         description: Number of items ordered.
 
       - name: discount
-        description: Discount applied to the item (as a decimal).
+        description: Discount applied to the item, as a decimal.
 
       - name: gross_total
-        description: Gross value before discount = unit_price * order_quantity.
+        description: >
+          Total value of the sale before discount. Calculated as 
+          unit_price * order_quantity.
 
       - name: net_total
-        description: Net value after discount = unit_price * (1 - discount) * order_quantity.
+        description: >
+          Total value of the sale after discount. Calculated as 
+          unit_price * (1 - discount) * order_quantity.
 
       - name: status
-        description: Order status code.
+        description: Order status (e.g., pending, processed, shipped).
 
       - name: sub_total
-        description: Order subtotal from the ERP.
+        description: Subtotal of the order before taxes and shipping.
 
       - name: total_due
-        description: Final total due from the ERP.
+        description: Final total amount due for the order.
 
       - name: order_date
-        description: Date the order was placed.
+        description: Date when the order was placed.

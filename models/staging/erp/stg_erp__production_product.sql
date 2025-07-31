@@ -12,14 +12,9 @@ source as (
   -- Chaves e identificadores principais (relevantes)
    CAST(productid AS INT)                          AS product_pk
   , CAST(productsubcategoryid AS INT)              AS product_subcategory_fk
-  , CAST(productmodelid AS INT)                    AS product_model_fk
+  , CAST(productmodelid AS INT)                    AS product_model
   , CAST(name AS VARCHAR)                          AS name_product
-  , CAST(listprice AS NUMERIC(18,2))               AS list_price
-  
-  
-  
-  
-  
+  , CAST(listprice AS NUMERIC(18,2))               AS list_price 
   
   
   
@@ -30,7 +25,7 @@ source as (
 --Colunas técnicas ou complementares que não respondem diretamente às perguntas
   
  --, CAST(productline AS VARCHAR)                   AS product_line
- --, CAST(productnumber AS VARCHAR)                 AS product_number   
+ , CAST(productnumber AS VARCHAR)                 AS product_number   
  --, CAST(class AS VARCHAR)                         AS class
  --, CAST(style AS VARCHAR)                          AS style
  --, CAST(color AS VARCHAR)                          AS color

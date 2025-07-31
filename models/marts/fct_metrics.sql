@@ -1,8 +1,11 @@
 with
  metrics as (
     select *
-    from {{ ref('int_orders_metrics') }}
- )
+    from {{ ref('int_metrics_sales') }}
+    
+    
+)
 
- select *
- from metrics
+select *
+from metrics
+

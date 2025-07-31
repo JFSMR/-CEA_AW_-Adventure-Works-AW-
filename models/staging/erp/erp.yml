@@ -56,21 +56,6 @@ sources:
               - unique
               - not_null
 
-      - name: production_productsubcategory
-        columns:
-          - name: productsubcategoryid
-            tests:
-              - unique
-              - not_null
-
-      - name: production_productcategory
-        columns:
-          - name: productcategoryid
-            tests:
-              - unique
-              - not_null
-
-
       - name: sales_salesterritory
         columns:
           - name: territoryid
@@ -105,3 +90,17 @@ sources:
                combination_of_columns:          
                   - salesorderid
                   - salesreasonid
+                 
+      - name: production_productsubcategory
+        columns:
+          - name: productsubcategoryid
+            tests:
+              - unique
+              - not_null
+
+      - name: production_productcategory
+        columns:
+          - name: productcategoryid
+            tests:
+              - unique
+              - not_null
