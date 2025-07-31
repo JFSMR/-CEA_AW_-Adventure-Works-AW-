@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: fct_sales
+  - name:  int_metrics_sales
     description: >
       Fact table containing enriched sales data. Combines sales order details
       with order headers to calculate gross and net sales totals, along with

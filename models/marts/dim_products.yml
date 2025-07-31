@@ -1,7 +1,7 @@
-
+version: 2
 
 models:
-  - name: dim_products
+  - name: dim_product
     description: Dimension table with enriched product information including subcategory and category details.
     columns:
       - name: product_pk
@@ -10,11 +10,11 @@ models:
         description: Name of the product.
       - name: list_price
         description: List price of the product.
-      - name: product_subcategory_id
+      - name: product_subcategory_fk
         description: Foreign key referencing the subcategory of the product.
-      - name: name_subcategory
+      - name: sub_name_category
         description: Name of the product subcategory.
-      - name: product_category_id
+      - name: product_category_fk
         description: Foreign key referencing the category of the product.
-      - name: name_category
+      - name: category_name
         description: Name of the product category.

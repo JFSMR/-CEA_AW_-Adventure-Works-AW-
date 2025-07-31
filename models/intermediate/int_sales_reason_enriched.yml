@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: int_sales_reason_enriched
+    description: >
+      Intermediate model that enriches sales orders with associated sales reasons,
+      including name and type classifications.
+
+    columns:
+      - name: sales_order_pk
+        description: Primary key of the sales order associated with the reason.
+        tests:
+          - not_null
+
+      - name: sales_reason_pk
+        description: Primary key of the sales reason.
+        tests:
+          - not_null
+
+      - name: name_reason
+        description: Name describing the reason for the sale.
+        tests:
+          - not_null
+
+      - name: type_reason
+        description: Classification type of the reason (e.g., Marketing, Promotion).
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - sales_order_pk
+            - sales_reason_pk
