@@ -57,7 +57,6 @@ joined as (
 metrics as (
     select
      sales_item_sk
-    ,  sales_order_detail_pk
     ,  sales_order_fk
     ,  product_fk
     ,  specialoffer_fk
