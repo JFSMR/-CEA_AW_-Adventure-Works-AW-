@@ -1,4 +1,4 @@
--- exemplo de teste
+-- Veracity test of the amount of $12,646,112.16 requested by CEO Carlos Silveira
 
 with
  sales_2011 as (
@@ -10,4 +10,5 @@ with
 
 select total
 from sales_2011
+
 where total not between 12646112.16 and 12646112.20
