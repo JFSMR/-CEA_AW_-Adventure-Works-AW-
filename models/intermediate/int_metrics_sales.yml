@@ -10,10 +10,7 @@ models:
       - name: sales_item_sk
         description: Surrogate key for the sales item (detail level).
         tests:
-          - not_null
-
-      - name: sales_order_detail_pk
-        description: Primary key for the sales order detail.
+          - not_null     
 
       - name: sales_order_fk
         description: Foreign key to the sales order header.
