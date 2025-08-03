@@ -1,65 +1,45 @@
 version: 2
 
 models:
-  - name:  int_metrics_sales
+  - name: int_metrics_sales
     description: >
-      Fact table containing enriched sales data. Combines sales order details
-      with order headers to calculate gross and net sales totals, along with
-      customer, product, and sales context information.
+      Aggregated sales metrics model combining order headers and order details
+      with calculated values such as total orders, gross total, and net total.
+
     columns:
       - name: sales_item_sk
-        description: Surrogate key for the sales item (detail level).
-        tests:
-          - not_null     
-
+        description: Primary key of the sales item
       - name: sales_order_fk
-        description: Foreign key to the sales order header.
-
+        description: Foreign key to the sales order
       - name: product_fk
-        description: Foreign key to the product.
-
+        description: Foreign key to the product
       - name: specialoffer_fk
-        description: Foreign key to the special offer.
-
+        description: Foreign key to the special offer
       - name: customer_fk
-        description: Foreign key to the customer.
-
+        description: Foreign key to the customer
       - name: territory_fk
-        description: Foreign key to the sales territory.
-
+        description: Foreign key to the sales territory
       - name: address_fk
-        description: Foreign key to the billing/shipping address.
-
+        description: Foreign key to the customer's address
       - name: creditcard_fk
-        description: Foreign key to the credit card used in the order.
-
+        description: Foreign key to the customer's credit card
       - name: salesperson_fk
-        description: Foreign key to the salesperson responsible for the order.
-
+        description: Foreign key to the salesperson
       - name: order_quantity
-        description: Number of items ordered.
-
+        description: Quantity ordered
+      - name: unit_price
+        description: Price per unit at time of sale
       - name: discount
-        description: Discount applied to the item, as a decimal.
-
-      - name: gross_total
-        description: >
-          Total value of the sale before discount. Calculated as 
-          unit_price * order_quantity.
-
-      - name: net_total
-        description: >
-          Total value of the sale after discount. Calculated as 
-          unit_price * (1 - discount) * order_quantity.
-
+        description: Discount applied to the unit price
       - name: status
-        description: Order status (e.g., pending, processed, shipped).
-
-      - name: sub_total
-        description: Subtotal of the order before taxes and shipping.
-
-      - name: total_due
-        description: Final total amount due for the order.
-
+        description: Status of the order
       - name: order_date
-        description: Date when the order was placed.
+        description: Date of the order
+      - name: total_orders
+        description: Count of distinct orders
+      - name: total_quantity
+        description: Total quantity ordered
+      - name: gross_total
+        description: Gross revenue before discount
+      - name: net_total
+        description: Net revenue after discount

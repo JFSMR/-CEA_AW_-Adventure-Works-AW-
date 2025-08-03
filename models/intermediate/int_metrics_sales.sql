@@ -1,5 +1,5 @@
 with
--- importar os modelos brutos
+-- import raw models
 orderheader as (
     select
     salesorder_pk
@@ -28,10 +28,11 @@ salesorderdetail as (
     from {{ ref('stg_erp__sales_salesorderdetail') }}
 ),
 
--- juntar tabelas
+-- join tables
 joined as (
     select
       sd.sales_item_sk
+    , sales_order_detail_pk      
     , sd.sales_order_detail_pk
     , sd.sales_order_fk
     , sd.product_fk
@@ -53,32 +54,47 @@ joined as (
         on sd.sales_order_fk = oh.salesorder_pk
 ),
 
--- métricas calculadas
+-- calculated metrics
 metrics as (
     select
-     sales_item_sk
-    ,  sales_order_fk
-    ,  product_fk
-    ,  specialoffer_fk
-    ,  customer_fk
-    ,  territory_fk
-    ,  address_fk
-    ,  creditcard_fk
-    ,  salesperson_fk
-    ,  order_quantity
-    ,  discount
-    ,  (unit_price * order_quantity) as gross_total
-    ,  (unit_price * (1 - discount) * order_quantity) as net_total
-    ,  status
-    ,  sub_total
-    ,  total_due
-    ,  order_date
-   
+        sales_item_sk
+        , sales_order_fk
+        , product_fk
+        , specialoffer_fk
+        , customer_fk
+        , territory_fk
+        , address_fk
+        , creditcard_fk
+        , salesperson_fk
+        , order_quantity
+        , unit_price
+        , discount
+        , status     
+        , order_date
+
+        -- calculated metrics per grouped row
+        , count(distinct sales_order_fk) as total_orders
+        , sum(order_quantity) as total_quantity
+        , unit_price * order_quantity as gross_total
+        , unit_price * order_quantity * (1 - discount) as net_total
+
     from joined
+    group by
+        sales_item_sk
+        , sales_order_fk
+        , product_fk
+        , specialoffer_fk
+        , customer_fk
+        , territory_fk
+        , address_fk
+        , creditcard_fk
+        , salesperson_fk
+        , order_quantity
+        , unit_price
+        , discount
+        , status    
+        , order_date
 )
 
 select *
 from metrics
-
-
-
