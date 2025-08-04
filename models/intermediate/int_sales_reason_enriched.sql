@@ -17,9 +17,8 @@ reason as (
 
 joined as (
     select 
-          s.sales_order_pk
-        , s.sales_reason_fk
-        , r.sales_reason_pk
+         r.sales_reason_pk
+        , s.sales_order_pk as sales_order_id            
         , r.name_reason
         , r.type_reason
     from salesreason s
@@ -29,8 +28,7 @@ joined as (
 
 select
       sales_reason_pk
-     , sales_order_id
-    , sales_reason_id   
+     , sales_order_id    
     , name_reason
     , type_reason
 from joined
