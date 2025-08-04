@@ -58,7 +58,7 @@ joined as (
 metrics as (
     select
         sales_item_sk
-        , sales_order_fk
+        , sales_order_fk as sales_order_id
         , product_fk    
         , customer_fk       
         , address_fk
@@ -79,7 +79,7 @@ metrics as (
     from joined
     group by
         sales_item_sk
-        , sales_order_fk
+        , sales_order_id
         , product_fk        
         , customer_fk       
         , address_fk
