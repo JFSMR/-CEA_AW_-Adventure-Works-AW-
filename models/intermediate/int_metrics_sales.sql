@@ -59,10 +59,8 @@ metrics as (
     select
         sales_item_sk
         , sales_order_fk
-        , product_fk
-        , specialoffer_fk
-        , customer_fk
-        , territory_fk
+        , product_fk    
+        , customer_fk       
         , address_fk
         , creditcard_fk
         , salesperson_fk
@@ -82,10 +80,8 @@ metrics as (
     group by
         sales_item_sk
         , sales_order_fk
-        , product_fk
-        , specialoffer_fk
-        , customer_fk
-        , territory_fk
+        , product_fk        
+        , customer_fk       
         , address_fk
         , creditcard_fk
         , salesperson_fk

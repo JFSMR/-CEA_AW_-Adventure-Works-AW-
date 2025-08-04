@@ -1,4 +1,5 @@
 version: 2
+
 models:
   - name: fct_sales_metrics
     description: >
@@ -6,59 +7,63 @@ models:
       sales metrics including gross and net totals, order data, and sales-related
       foreign keys.
       Acts as an interface layer between the intermediate metrics and reporting tools.
+
     columns:
       - name: sales_item_sk
-        description: Surrogate key for the sales item.
+        description: Surrogate key for the sales item
         tests:
           - not_null
 
       - name: sales_order_detail_pk
-        description: Primary key for the sales order detail.
+        description: Primary key of the sales order detail
 
       - name: sales_order_fk
-        description: Foreign key to the sales order header.
+        description: Foreign key to the sales order
 
       - name: product_fk
-        description: Foreign key to the product.
+        description: Foreign key to the product
 
       - name: specialoffer_fk
-        description: Foreign key to the special offer.
+        description: Foreign key to the special offer
 
       - name: customer_fk
-        description: Foreign key to the customer.
+        description: Foreign key to the customer
 
       - name: territory_fk
-        description: Foreign key to the sales territory.
+        description: Foreign key to the sales territory
 
       - name: address_fk
-        description: Foreign key to the billing or shipping address.
+        description: Foreign key to the customer's address
 
       - name: creditcard_fk
-        description: Foreign key to the credit card used in the order.
+        description: Foreign key to the customer's credit card
 
       - name: salesperson_fk
-        description: Foreign key to the assigned salesperson.
+        description: Foreign key to the salesperson
 
       - name: order_quantity
-        description: Number of items ordered.
+        description: Quantity ordered
+
+      - name: unit_price
+        description: Price per unit at time of sale
 
       - name: discount
-        description: Discount applied to the item (as a decimal).
+        description: Discount applied to the unit price (as a decimal)
 
       - name: gross_total
-        description: Gross value before discount = unit_price * order_quantity.
+        description: Gross revenue before discount = unit_price * order_quantity
 
       - name: net_total
-        description: Net value after discount = unit_price * (1 - discount) * order_quantity.
+        description: Net revenue after discount = unit_price * order_quantity * (1 - discount)
 
       - name: status
-        description: Order status code.
+        description: Status of the order
 
       - name: sub_total
-        description: Order subtotal from the ERP.
+        description: Subtotal of the order as recorded in ERP
 
       - name: total_due
-        description: Final total due from the ERP.
+        description: Final amount due as recorded in ERP
 
       - name: order_date
-        description: Date the order was placed.
+        description: Date of the order
