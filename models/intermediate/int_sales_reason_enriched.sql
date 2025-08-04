@@ -1,24 +1,24 @@
-
-
 with salesreason as (
     select 
-          sales_order_pk
-        , sales_reason_fk
+        sales_order_pk
+      , sales_reason_fk
     from {{ ref('stg_erp__sales_salesorderheadersalesreason') }}
-),
+)
 
-reason as (
+, reason as (
     select 
-          sales_reason_pk
-        , name_reason
-        , type_reason
+        sales_reason_pk
+      , name_reason
+      , type_reason
     from {{ ref('stg_erp__SALES_SALESREASON') }}
-),
+)
 
+, 
 joined as (
     select 
-         r.sales_reason_pk
-        , s.sales_order_pk as sales_order_id            
+          s.sales_order_pk
+        , s.sales_reason_fk
+        , r.sales_reason_pk
         , r.name_reason
         , r.type_reason
     from salesreason s
@@ -27,9 +27,13 @@ joined as (
 )
 
 select
-      sales_reason_pk
-     , sales_order_id    
+      sales_order_pk   as sales_reason_id
+    , sales_reason_pk 
     , name_reason
     , type_reason
 from joined
+
+
+   
+
 

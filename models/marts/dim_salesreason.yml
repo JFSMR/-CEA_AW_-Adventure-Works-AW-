@@ -2,22 +2,26 @@ version: 2
 
 models:
   - name: dim_salesreason
-    description: Dimension table with sales reasons related to sales orders.
+    description: Dimension table containing sales reasons associated with sales orders.
     columns:
-      - name: sales_order_pk
-        description: Foreign key of the sales order.
+      - name: sales_reason_id
+        description: Foreign key referencing the sales order (originally `sales_order_pk`).
         tests:
           - not_null
-      - name: sales_reason_fk
-        description: Foreign key of the sales reason.
+
+      - name: sales_reason_pk
+        description: Primary key of the sales reason.
         tests:
           - not_null
+
       - name: name_reason
         description: Descriptive name of the sales reason.
+
       - name: type_reason
-        description: Category or type of the reason (e.g., marketing, promotion).
+        description: Category or type of the sales reason (e.g. marketing, promotion).
+
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - sales_order_pk
-            - sales_reason_fk
+            - sales_reason_id
+            - sales_reason_pk
