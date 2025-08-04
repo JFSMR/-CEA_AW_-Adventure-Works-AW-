@@ -28,9 +28,10 @@ joined as (
 )
 
 select
-      sales_order_pk
-    , sales_reason_fk
-    , sales_reason_pk
+      sales_reason_pk
+     , sales_order_id
+    , sales_reason_id   
     , name_reason
     , type_reason
 from joined
+
