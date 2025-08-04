@@ -13,6 +13,7 @@ models:
         description: Surrogate key for the sales item
         tests:
           - not_null
+          - unique
 
       - name: sales_order_detail_pk
         description: Primary key of the sales order detail
@@ -21,49 +22,49 @@ models:
         description: Foreign key to the sales order
 
       - name: product_fk
-        description: Foreign key to the product
+        description: Foreign key to the purchased product
 
       - name: specialoffer_fk
-        description: Foreign key to the special offer
+        description: Foreign key to the applied special offer on the item
 
       - name: customer_fk
-        description: Foreign key to the customer
+        description: Foreign key to the customer who placed the order
 
       - name: territory_fk
-        description: Foreign key to the sales territory
+        description: Foreign key to the sales territory where the order was placed
 
       - name: address_fk
-        description: Foreign key to the customer's address
+        description: Foreign key to the address associated with the order
 
       - name: creditcard_fk
-        description: Foreign key to the customer's credit card
+        description: Foreign key to the credit card used in the transaction
 
       - name: salesperson_fk
-        description: Foreign key to the salesperson
+        description: Foreign key to the salesperson responsible for the order
 
       - name: order_quantity
-        description: Quantity ordered
+        description: Number of units ordered for the item
 
       - name: unit_price
-        description: Price per unit at time of sale
+        description: Price per unit at the time of the order
 
       - name: discount
-        description: Discount applied to the unit price (as a decimal)
+        description: Discount applied to the item (expressed as a decimal fraction)
 
       - name: gross_total
-        description: Gross revenue before discount = unit_price * order_quantity
+        description: Gross revenue before discounts (unit_price * order_quantity)
 
       - name: net_total
-        description: Net revenue after discount = unit_price * order_quantity * (1 - discount)
+        description: Net revenue after applying discount (unit_price * order_quantity * (1 - discount))
 
       - name: status
-        description: Status of the order
+        description: Status code of the order
 
       - name: sub_total
-        description: Subtotal of the order as recorded in ERP
+        description: Subtotal value of the order as recorded in the ERP system
 
       - name: total_due
-        description: Final amount due as recorded in ERP
+        description: Total amount due after taxes and discounts, from ERP system
 
       - name: order_date
-        description: Date of the order
+        description: Date on which the order was placed
