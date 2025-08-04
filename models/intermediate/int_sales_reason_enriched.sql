@@ -13,20 +13,27 @@ with salesreason as (
     from {{ ref('stg_erp__SALES_SALESREASON') }}
 )
 
-, joined as (
+, 
+joined as (
     select 
-        r.sales_reason_pk
-      , s.sales_order_pk as sales_order_id            
-      , r.name_reason
-      , r.type_reason
+          s.sales_order_pk
+        , s.sales_reason_fk
+        , r.sales_reason_pk
+        , r.name_reason
+        , r.type_reason
     from salesreason s
     left join reason r
         on s.sales_reason_fk = r.sales_reason_pk
 )
 
 select
-    sales_reason_pk
-  , sales_order_id    
-  , name_reason
-  , type_reason
+      sales_order_pk   as sales_reason_id
+    , sales_reason_pk 
+    , name_reason
+    , type_reason
 from joined
+
+
+   
+
+
