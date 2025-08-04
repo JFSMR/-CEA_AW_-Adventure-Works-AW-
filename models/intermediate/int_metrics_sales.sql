@@ -26,7 +26,9 @@ salesorderdetail as (
     , unit_price
     , unitpricediscount
     from {{ ref('stg_erp__sales_salesorderdetail') }}
-),
+
+
+ ),
 
 -- join tables
 joined as (
@@ -58,8 +60,7 @@ joined as (
 metrics as (
     select
         sales_item_sk
-        , sales_order_fk as sales_order_id
-        , product_fk    
+        , sales_order_fk 
         , customer_fk       
         , address_fk
         , creditcard_fk
@@ -79,7 +80,7 @@ metrics as (
     from joined
     group by
         sales_item_sk
-        , sales_order_id
+        , sales_order_fk
         , product_fk        
         , customer_fk       
         , address_fk

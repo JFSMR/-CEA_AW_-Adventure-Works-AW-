@@ -16,19 +16,20 @@ with salesreason as (
 , 
 joined as (
     select 
-          s.sales_order_pk
-        , s.sales_reason_fk
+          s.sales_order_pk 
+        , s.sales_reason_fk as sales_reason_id
         , r.sales_reason_pk
         , r.name_reason
         , r.type_reason
     from salesreason s
-    left join reason r
-        on s.sales_reason_fk = r.sales_reason_pk
+inner join reason r
+    on s.sales_reason_fk = r.sales_reason_pk
+
 )
 
 select
-      sales_order_pk   as sales_reason_id
-    , sales_reason_pk 
+     sales_order_pk
+    , sales_reason_id
     , name_reason
     , type_reason
 from joined

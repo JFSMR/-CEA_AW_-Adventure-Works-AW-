@@ -2,59 +2,68 @@ version: 2
 
 models:
   - name: int_metrics_sales
-    description: >
-      Intermediate model that joins order header and order detail data to compute
-      sales metrics. Includes revenue calculations, discounts, and dimensional references
-      for analytics and reporting.
-
+    description: |
+      Modelo intermediário que agrega dados das tabelas de pedidos e detalhes, 
+      calculando métricas como total de pedidos, quantidade total, total bruto e líquido.
     columns:
       - name: sales_item_sk
-        description: Surrogate key of the sales item
+        description: "Chave substituta do item de venda."
         tests:
           - not_null
           - unique
 
-      - name: sales_order_id
-        description: Alias for the foreign key to the sales order
-
-      - name: product_fk
-        description: Foreign key to the purchased product
+      - name: sales_order_fk
+        description: "Chave estrangeira para o pedido de venda."
 
       - name: customer_fk
-        description: Foreign key to the customer who placed the order
+        description: "Chave estrangeira do cliente."
 
       - name: address_fk
-        description: Foreign key to the address associated with the order
+        description: "Chave estrangeira do endereço de entrega."
 
       - name: creditcard_fk
-        description: Foreign key to the credit card used in the transaction
+        description: "Chave estrangeira do cartão de crédito usado no pedido."
 
       - name: salesperson_fk
-        description: Foreign key to the salesperson responsible for the order
+        description: "Chave estrangeira do vendedor responsável pelo pedido."
 
       - name: order_quantity
-        description: Number of units ordered for the item
+        description: "Quantidade de itens pedidos."
+        tests:
+          - not_null
 
       - name: unit_price
-        description: Price per unit of the item at the time of the order
+        description: "Preço unitário do produto."
+        tests:
+          - not_null
 
       - name: discount
-        description: Discount applied to the item (expressed as a decimal fraction)
+        description: "Desconto aplicado no preço unitário."
 
       - name: status
-        description: Current status code of the order
+        description: "Status do pedido."
 
       - name: order_date
-        description: Date on which the order was placed
+        description: "Data do pedido."
+        tests:
+          - not_null
 
       - name: total_orders
-        description: Count of distinct orders related to the item
+        description: "Número total de pedidos distintos por item."
+        tests:
+          - not_null
 
       - name: total_quantity
-        description: Aggregated quantity of items in the group
+        description: "Quantidade total vendida do item."
+        tests:
+          - not_null
 
       - name: gross_total
-        description: Gross revenue before discounts (unit_price * order_quantity)
+        description: "Valor bruto da venda (unit_price * order_quantity)."
+        tests:
+          - not_null
 
       - name: net_total
-        description: Net revenue after applying discount (unit_price * order_quantity * (1 - discount))
+        description: "Valor líquido da venda (considerando desconto)."
+        tests:
+          - not_null
