@@ -3,32 +3,32 @@ version: 2
 models:
   - name: int_sales_reason_enriched
     description: >
-      Intermediate model that enriches sales orders with associated sales reasons,
-      including name and type classifications.
+      Modelo intermediário que enriquece os pedidos de venda com os respectivos motivos associados,
+      incluindo o nome e o tipo de razão da venda.
 
     columns:
-      - name: sales_order_pk
-        description: Primary key of the sales order associated with the reason.
+      - name: sales_reason_pk
+        description: "Chave primária da razão de venda."
         tests:
           - not_null
 
-      - name: sales_reason_pk
-        description: Primary key of the sales reason.
+      - name: sales_order_id
+        description: "Identificador do pedido de venda (PK do sales order)."
         tests:
           - not_null
 
       - name: name_reason
-        description: Name describing the reason for the sale.
+        description: "Descrição textual do motivo da venda (ex.: Promoção, Marketing)."
         tests:
           - not_null
 
       - name: type_reason
-        description: Classification type of the reason (e.g., Marketing, Promotion).
+        description: "Classificação da razão da venda (ex.: Interna, Externa)."
         tests:
           - not_null
 
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - sales_order_pk
+            - sales_order_id
             - sales_reason_pk
