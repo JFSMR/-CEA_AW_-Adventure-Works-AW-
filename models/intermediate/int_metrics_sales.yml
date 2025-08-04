@@ -13,12 +13,8 @@ models:
         description: Foreign key to the sales order
       - name: product_fk
         description: Foreign key to the product
-      - name: specialoffer_fk
-        description: Foreign key to the special offer
       - name: customer_fk
         description: Foreign key to the customer
-      - name: territory_fk
-        description: Foreign key to the sales territory
       - name: address_fk
         description: Foreign key to the customer's address
       - name: creditcard_fk
@@ -36,10 +32,10 @@ models:
       - name: order_date
         description: Date of the order
       - name: total_orders
-        description: Count of distinct orders
+        description: Count of distinct orders grouped by row
       - name: total_quantity
-        description: Total quantity ordered
+        description: Total quantity ordered per grouped row
       - name: gross_total
-        description: Gross revenue before discount
+        description: Gross revenue before discount per row
       - name: net_total
-        description: Net revenue after discount
+        description: Net revenue after discount per row
