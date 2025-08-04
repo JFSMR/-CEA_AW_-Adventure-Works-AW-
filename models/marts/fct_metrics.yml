@@ -1,70 +1,42 @@
 version: 2
 
 models:
-  - name: fct_sales_metrics
-    description: >
-      Final fact model that references `int_metrics_sales`, containing calculated
-      sales metrics including gross and net totals, order data, and sales-related
-      foreign keys.
-      Acts as an interface layer between the intermediate metrics and reporting tools.
-
+  - name: fct_metrics
+    description: |
+      Tabela fato de métricas de vendas com dados agregados para análise.
     columns:
       - name: sales_item_sk
-        description: Surrogate key for the sales item
+        description: "Chave substituta do item de venda."
         tests:
           - not_null
-          - unique
-
-      - name: sales_order_detail_pk
-        description: Primary key of the sales order detail
 
       - name: sales_order_fk
-        description: Foreign key to the sales order
-
-      - name: product_fk
-        description: Foreign key to the purchased product
-
-      - name: specialoffer_fk
-        description: Foreign key to the applied special offer on the item
+        description: "Chave estrangeira para o pedido de venda."
 
       - name: customer_fk
-        description: Foreign key to the customer who placed the order
+        description: "Chave estrangeira do cliente."
 
-      - name: territory_fk
-        description: Foreign key to the sales territory where the order was placed
+      - name: total_orders
+        description: "Número total de pedidos distintos por item."
+        tests:
+          - not_null
 
-      - name: address_fk
-        description: Foreign key to the address associated with the order
-
-      - name: creditcard_fk
-        description: Foreign key to the credit card used in the transaction
-
-      - name: salesperson_fk
-        description: Foreign key to the salesperson responsible for the order
-
-      - name: order_quantity
-        description: Number of units ordered for the item
-
-      - name: unit_price
-        description: Price per unit at the time of the order
-
-      - name: discount
-        description: Discount applied to the item (expressed as a decimal fraction)
+      - name: total_quantity
+        description: "Quantidade total vendida do item."
+        tests:
+          - not_null
 
       - name: gross_total
-        description: Gross revenue before discounts (unit_price * order_quantity)
+        description: "Valor bruto total da venda."
+        tests:
+          - not_null
 
       - name: net_total
-        description: Net revenue after applying discount (unit_price * order_quantity * (1 - discount))
-
-      - name: status
-        description: Status code of the order
-
-      - name: sub_total
-        description: Subtotal value of the order as recorded in the ERP system
-
-      - name: total_due
-        description: Total amount due after taxes and discounts, from ERP system
+        description: "Valor líquido total da venda (descontos aplicados)."
+        tests:
+          - not_null
 
       - name: order_date
-        description: Date on which the order was placed
+        description: "Data do pedido."
+        tests:
+          - not_null
