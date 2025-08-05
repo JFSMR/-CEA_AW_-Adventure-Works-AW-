@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: dim_sales_reason
+    description: "Dimension model for categorizing sales reasons used in order analysis."
+
+    columns:
+      - name: sales_reason_pk
+        description: "Primary key that uniquely identifies each sales reason."
+        tests:
+          - unique
+          - not_null
+
+      - name: name_reason
+        description: "Name or label of the sales reason."
+        tests:
+          - not_null
+
+      - name: type_reason
+        description: "Category or type of the sales reason such as Marketing, Promotion, or Other."
+        tests:
+          - not_null

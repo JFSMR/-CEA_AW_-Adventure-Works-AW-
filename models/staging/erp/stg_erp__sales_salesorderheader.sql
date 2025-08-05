@@ -13,7 +13,7 @@ SELECT
     ,CAST(customerid AS INT)                     AS customer_fk                
     ,CAST(territoryid AS INT)                    AS territory_fk               
     ,CAST(billtoaddressid AS INT)                AS address_fk              
-    ,CAST(creditcardid AS INT)                   AS creditcard_fk
+    ,CAST(creditcardid AS INT)                   AS creditcard_fk 
     ,CAST(salespersonid AS INT)                  AS salesperson_fk                
     ,CAST(status AS INT)                         AS status 
     ,CAST(subtotal AS NUMERIC(18,4))             AS sub_total                     

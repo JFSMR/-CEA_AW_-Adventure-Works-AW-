@@ -2,9 +2,13 @@ with
 reason as ( 
     
     select * 
-    from {{ ref('int_sales_reason') }}
+    from {{ ref('stg_erp__SALES_SALESREASON') }}
     
 )
 
 select * 
 from reason
+
+   
+
+

@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: int_bridge_salesorder_salesreason
+    description: >
+      Bridge table between sales orders and sales reasons.
+      Each row represents an association between a sales order (sales_order_pk) and a reason (sales_reason_fk).
+    columns:
+      - name: sales_order_reason_pk
+        description: Surrogate key for the order-reason relationship.
+        tests:
+          - not_null
+          - unique
+
+      - name: sales_order_pk
+        description: Foreign key referencing the sales order.
+        tests:
+          - not_null
+
+      - name: sales_reason_fk
+        description: Foreign key referencing the sales reason.
+        tests:
+          - not_null
