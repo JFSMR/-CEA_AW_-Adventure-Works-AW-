@@ -2,68 +2,106 @@ version: 2
 
 models:
   - name: int_metrics_sales
-    description: |
-      Modelo intermediário que agrega dados das tabelas de pedidos e detalhes, 
-      calculando métricas como total de pedidos, quantidade total, total bruto e líquido.
+    description: "This fact table aggregates sales order data with details, reasons, and credit card information to provide key sales metrics. It contains one row per unique sales item, with all associated reasons aggregated into a single string."
+    
     columns:
       - name: sales_item_sk
-        description: "Chave substituta do item de venda."
+        description: "The surrogate key for a unique sales order item, combining the order detail ID and order ID."
         tests:
-          - not_null
           - unique
+          - not_null
 
       - name: sales_order_fk
-        description: "Chave estrangeira para o pedido de venda."
+        description: "The foreign key to the sales order header."
+        tests:
+          - not_null
+
+      - name: product_fk
+        description: "The foreign key to the product dimension."
+        tests:
+          - not_null
 
       - name: customer_fk
-        description: "Chave estrangeira do cliente."
+        description: "The foreign key to the customer dimension."
+        tests:
+          - not_null
 
       - name: address_fk
-        description: "Chave estrangeira do endereço de entrega."
+        description: "The foreign key to the customer address."
+        tests:
+          - not_null
 
       - name: creditcard_fk
-        description: "Chave estrangeira do cartão de crédito usado no pedido."
+        description: "The foreign key to the credit card dimension. `0` indicates no credit card was used."
+        tests:
+          - not_null
 
       - name: salesperson_fk
-        description: "Chave estrangeira do vendedor responsável pelo pedido."
+        description: "The foreign key to the salesperson dimension. `0` indicates no salesperson was associated with the order."
+        tests:
+          - not_null
 
       - name: order_quantity
-        description: "Quantidade de itens pedidos."
+        description: "The number of units ordered for a specific item."
         tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
 
       - name: unit_price
-        description: "Preço unitário do produto."
+        description: "The price per unit of the ordered item."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: discount
+        description: "The discount applied to the unit price."
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+
+      - name: status
+        description: "The status of the sales order."
         tests:
           - not_null
 
-      - name: discount
-        description: "Desconto aplicado no preço unitário."
-
-      - name: status
-        description: "Status do pedido."
-
       - name: order_date
-        description: "Data do pedido."
+        description: "The date when the sales order was placed."
+        tests:
+          - not_null
+
+      - name: name_reason
+        description: "The descriptive name(s) of the sales reason for the order. Aggregated into a string if multiple reasons exist. 'No Reason' if none was provided."
+        tests:
+          - not_null
+
+      - name: type_reason
+        description: "The type(s) of the sales reason for the order. Aggregated into a string if multiple types exist. 'No Reason' if none was provided."
         tests:
           - not_null
 
       - name: total_orders
-        description: "Número total de pedidos distintos por item."
+        description: "The total number of orders (aggregated metric)."
         tests:
           - not_null
 
       - name: total_quantity
-        description: "Quantidade total vendida do item."
+        description: "The total quantity of items sold (aggregated metric)."
         tests:
           - not_null
 
       - name: gross_total
-        description: "Valor bruto da venda (unit_price * order_quantity)."
+        description: "The total sales amount before discounts."
         tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
 
       - name: net_total
-        description: "Valor líquido da venda (considerando desconto)."
+        description: "The total sales amount after discounts."
         tests:
           - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
