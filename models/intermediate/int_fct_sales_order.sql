@@ -1,7 +1,5 @@
-with
-
--- CTE for staging sales order header data
-orderheader as (
+-- Extracts key fields from the sales order header table, including customer, territory, address, credit card, salesperson, status, financial totals, and order date.
+with orderheader as (
   select
       salesorder_pk
     , customer_fk
@@ -16,7 +14,7 @@ orderheader as (
   from {{ ref('stg_erp__sales_salesorderheader') }}
 ),
 
--- CTE for staging sales order detail data, aliasing unitpricediscount as discount
+-- Retrieves detailed item-level data per sales order: products, quantity, unit price and discounts.
 salesorderdetail as (
     select
         sales_item_sk
@@ -30,7 +28,7 @@ salesorderdetail as (
     from {{ ref('stg_erp__sales_salesorderdetail') }}
 ),
 
--- New CTE to aggregate metrics at the order level to avoid fan-out issues
+-- Aggregates item-level data by order to compute total quantity, gross total (pre-discount), and net total (post-discount).
 sales_aggregated as (
     select
         sales_order_fk
@@ -41,7 +39,7 @@ sales_aggregated as (
     group by sales_order_fk
 ),
 
--- CTE for the bridge table linking sales orders to sales reasons
+-- Bridge table linking sales orders to their respective reason identifiers.
 bridge as (
   select
       sales_order_pk
@@ -49,7 +47,7 @@ bridge as (
   from {{ ref('int_orderheadersalesreason') }}
 ),
 
--- CTE for the sales reason dimension table
+-- Fetches details about sales reasons, including their name and type.
 reason as (
   select
       sales_reason_pk
@@ -58,7 +56,7 @@ reason as (
   from {{ ref('int_sales_reason') }}
 ),
 
--- CTE for the credit card dimension table
+-- Retrieves credit card data used in orders, such as type and number.
 credi as (
   select
       creditcard_pk
@@ -67,12 +65,12 @@ credi as (
   from {{ ref('int_creditcard') }}
 ),
 
--- CTE to join all the previous CTEs into a single view
+-- Joins all intermediate data sets to create an enriched fact-level view of sales orders.
+-- Includes credit card info, sales reasons, product, and calculated metrics per order.
 joined as (
   select
       oh.salesorder_pk as sales_order_fk
     , oh.customer_fk
-    , oh.territory_fk
     , oh.address_fk
     , oh.creditcard_fk
     , oh.salesperson_fk
@@ -81,52 +79,39 @@ joined as (
     , sa.gross_total_by_order
     , sa.net_total_by_order
     , sa.total_quantity_by_order
-    -- Use COALESCE to handle NULL values for BI dashboards
-    , coalesce(r.sales_reason_pk, -1) as sales_reason_pk
+    , coalesce(b.sales_reason_fk, -1) as sales_reason_fk
     , coalesce(r.name_reason, 'Não Informado') as name_reason
     , coalesce(r.type_reason, 'Não Informado') as type_reason
     , coalesce(cd.card_type, 'Não Informado') as card_type
     , coalesce(cd.card_number, 'Não Informado') as card_number
-
-    -- Use ROW_NUMBER to identify the first row of each order
-     -- This will ensure the sum is calculated only once
-
-    , row_number() over (partition by oh.salesorder_pk order by r.sales_reason_pk) as row_num_per_order
+    , sod.product_fk
+    , row_number() over (partition by oh.salesorder_pk order by b.sales_reason_fk) as row_num_per_order
   from orderheader oh
-  left join sales_aggregated sa
-    on oh.salesorder_pk = sa.sales_order_fk
-  left join bridge b
-    on oh.salesorder_pk = b.sales_order_pk
-  left join reason r
-    on b.sales_reason_fk = r.sales_reason_pk
-  left join credi cd
-    on oh.creditcard_fk = cd.creditcard_pk
+  left join sales_aggregated sa on oh.salesorder_pk = sa.sales_order_fk
+  left join bridge b on oh.salesorder_pk = b.sales_order_pk
+  left join reason r on b.sales_reason_fk = r.sales_reason_pk
+  left join credi cd on oh.creditcard_fk = cd.creditcard_pk
+  inner join salesorderdetail sod on oh.salesorder_pk = sod.sales_order_fk
 ),
 
--- CTE to calculate aggregated metrics for each sales item
-
+-- Calculates final metrics, aggregates data per sales order, and assigns a surrogate key for each fact row.
 metrics as (
   select
-      -- Add the surrogate key for the fact table
-      row_number() over (order by sales_order_fk, sales_reason_pk) as sk_sales_order_fact
+      row_number() over (order by sales_order_fk, sales_reason_fk) as sales_order_fact_sk
     , sales_order_fk
     , customer_fk
     , address_fk
     , creditcard_fk
+    , product_fk
+    , sales_reason_fk
     , status
     , order_date
-    , sales_reason_pk
     , name_reason
     , type_reason
     , card_type
     , card_number
     , count(distinct sales_order_fk) as total_orders
     , sum(total_quantity_by_order) as total_quantity
-
-   -- Use conditional aggregation to sum the gross_total  
-   -- only once per order, even when rows are duplicated.
-
-
     , sum(case when row_num_per_order = 1 then gross_total_by_order else 0 end) as gross_total
     , sum(case when row_num_per_order = 1 then net_total_by_order else 0 end) as net_total
   from joined
@@ -135,7 +120,8 @@ metrics as (
     , customer_fk
     , address_fk
     , creditcard_fk
-    , sales_reason_pk
+    , product_fk
+    , sales_reason_fk
     , status
     , order_date
     , name_reason
@@ -144,4 +130,5 @@ metrics as (
     , card_number
 )
 
+-- Final result with all computed metrics.
 select * from metrics
