@@ -76,9 +76,9 @@ sources:
             tests:
               - unique
               - not_null
-      - name: SALES_SALESREASON
+      - name: sales_salesreason
         columns:
-          - name: SALESREASONID
+          - name: salesreasonid
             tests:
                 - unique
                 - not_null
