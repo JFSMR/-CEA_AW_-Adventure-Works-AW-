@@ -85,6 +85,8 @@ joined as (
     , coalesce(cd.card_type, 'Não Informado') as card_type
     , coalesce(cd.card_number, 'Não Informado') as card_number
     , sod.product_fk
+    , sod.unit_price
+    , sod.discount
     , row_number() over (partition by oh.salesorder_pk order by b.sales_reason_fk) as row_num_per_order
   from orderheader oh
   left join sales_aggregated sa on oh.salesorder_pk = sa.sales_order_fk
@@ -110,6 +112,8 @@ metrics as (
     , type_reason
     , card_type
     , card_number
+    , unit_price
+    , discount
     , count(distinct sales_order_fk) as total_orders
     , sum(total_quantity_by_order) as total_quantity
     , sum(case when row_num_per_order = 1 then gross_total_by_order else 0 end) as gross_total
@@ -122,6 +126,8 @@ metrics as (
     , creditcard_fk
     , product_fk
     , sales_reason_fk
+    , unit_price
+    , discount
     , status
     , order_date
     , name_reason
