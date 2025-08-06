@@ -87,8 +87,10 @@ joined as (
     , coalesce(r.type_reason, 'Não Informado') as type_reason
     , coalesce(cd.card_type, 'Não Informado') as card_type
     , coalesce(cd.card_number, 'Não Informado') as card_number
-    -- CRUCIAL CORREÇÃO : Use ROW_NUMBER para identificar a primeira linha de cada pedido
-    -- Isso permitirá que a soma seja feita apenas uma vez
+
+    -- Use ROW_NUMBER to identify the first row of each order
+     -- This will ensure the sum is calculated only once
+
     , row_number() over (partition by oh.salesorder_pk order by r.sales_reason_pk) as row_num_per_order
   from orderheader oh
   left join sales_aggregated sa
@@ -102,6 +104,7 @@ joined as (
 ),
 
 -- CTE to calculate aggregated metrics for each sales item
+
 metrics as (
   select
       -- Add the surrogate key for the fact table
@@ -119,8 +122,11 @@ metrics as (
     , card_number
     , count(distinct sales_order_fk) as total_orders
     , sum(total_quantity_by_order) as total_quantity
-    -- CRUCIAL CORREÇÃO : Use a agregação condicional para somar o gross_total
-    -- apenas uma vez por pedido, mesmo com a duplicação de linhas.
+
+   -- Use conditional aggregation to sum the gross_total  
+   -- only once per order, even when rows are duplicated.
+
+
     , sum(case when row_num_per_order = 1 then gross_total_by_order else 0 end) as gross_total
     , sum(case when row_num_per_order = 1 then net_total_by_order else 0 end) as net_total
   from joined
