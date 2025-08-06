@@ -110,7 +110,6 @@ metrics as (
     , customer_fk
     , address_fk
     , creditcard_fk
-    , salesperson_fk
     , status
     , order_date
     , sales_reason_pk
@@ -130,10 +129,9 @@ metrics as (
     , customer_fk
     , address_fk
     , creditcard_fk
-    , salesperson_fk
+    , sales_reason_pk
     , status
     , order_date
-    , sales_reason_pk
     , name_reason
     , type_reason
     , card_type

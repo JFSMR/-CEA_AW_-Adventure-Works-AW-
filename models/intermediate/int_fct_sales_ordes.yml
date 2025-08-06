@@ -30,10 +30,6 @@ models:
         tests:
           - not_null
 
-      - name: salesperson_fk
-        description: "Foreign key to the salesperson dimension table."
-        tests:
-          - not_null
 
       - name: status
         description: "The status of the sales order (e.g., Shipped, In Process)."
