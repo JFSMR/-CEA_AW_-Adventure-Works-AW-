@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: int_orderheadersalesreason
+    description: "A model that selects sales order reasons from the staging table."
+    columns:
+      - name: sales_order_reason_pk
+        description: "Primary key of the sales order reason record."
+        tests:
+          - not_null
+          - unique
+
+      - name: sales_order_pk
+        description: "Foreign key referencing the parent sales order."
+        tests:
+          - not_null
+
+      - name: sales_reason_fk
+        description: "Foreign key referencing the reason for the sales order."
+        tests:
+          - not_null

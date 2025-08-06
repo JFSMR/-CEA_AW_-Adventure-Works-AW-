@@ -1,4 +1,4 @@
--- VALIDATION TEST: GROSS SALES IN 2011
+--VALIDATION TEST: GROSS SALES IN 2011
 -- Requested by CEO: Carlos Silveira
 
 -- Goal:
@@ -8,16 +8,14 @@
 
 
 
+with
+sales_2011 as (
+    select 
+    sum(gross_total) as gross_total
+  from {{ ref('int_fct_sales_order') }}
+  where extract(year from order_date) = 2011
+)
 
-
-
-
-with sales_2011 as (
-  select round(sum(gross_total), 2) as total
-  from {{ ref('int_metrics_sales') }}
-  where order_date between '2011-01-01' and '2011-12-31'
-) 
-
-select total
+select gross_total
 from sales_2011
-where total not between 12646112.16 and 12646112.20
+where gross_total not between 12646112.16 and 12646112.20
