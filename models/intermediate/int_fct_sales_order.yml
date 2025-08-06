@@ -3,137 +3,69 @@ version: 2
 models:
   - name: int_fct_sales_order
     description: >
-      This intermediate fact model aggregates key sales performance metrics 
-      at the granularity of the sales order and sales reason. It consolidates 
-      relevant transactional and dimensional data points to support advanced 
-      analytical use cases, such as revenue tracking, sales attribution, and 
-      operational insights. 
-
-      It acts as a refined layer between the staging and final marts layers, 
-      ensuring data is cleaned, joined, and transformed to reflect consistent 
-      business logic.
-
+      Intermediate model that joins and enriches sales order data, combining order headers,
+      order details, credit card info, and sales reasons into a detailed grain of one row per sales order item.
     columns:
-      - name: sk_sales_order_fact
-        description: >
-          Surrogate key that uniquely identifies each record in the fact table. 
-          It is generated to provide a unique and immutable identifier that is 
-          independent of the source system’s natural keys.
-        tests:
-          - unique
-          - not_null
-
       - name: sales_order_fk
-        description: >
-          Foreign key reference to the sales order in the source system. 
-          This represents the business key used to identify each transaction 
-          in the sales process.
+        description: Primary key referencing the sales order.
         tests:
           - not_null
 
       - name: customer_fk
-        description: >
-          Foreign key pointing to the customer dimension. It allows the model 
-          to connect transactional data to customer-level insights such as 
-          segmentation, behavior, and demographics.
+        description: Foreign key referencing the customer who placed the order.
         tests:
           - not_null
 
       - name: address_fk
-        description: >
-          Foreign key to the address dimension, representing the shipping or 
-          billing address associated with the sales order.
+        description: Foreign key referencing the shipping/billing address.
         tests:
           - not_null
 
       - name: creditcard_fk
-        description: >
-          Foreign key to the credit card dimension, linking each transaction 
-          to the payment method used by the customer.
-        tests:
-          - not_null
+        description: Foreign key referencing the credit card used in the transaction.
+
+      - name: salesperson_fk
+        description: Foreign key referencing the salesperson responsible for the order.
 
       - name: status
-        description: >
-          Indicates the current status of the sales order (e.g., 'Shipped', 
-          'In Process', 'Cancelled'). This field helps track order fulfillment 
-          progress and business process flow.
+        description: Status of the order (e.g., processed, shipped).
         tests:
-          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]  # Ajuste conforme os possíveis status do seu sistema
 
       - name: order_date
-        description: >
-          The date when the sales order was officially placed by the customer. 
-          Useful for time-series analyses, trend monitoring, and seasonal behavior 
-          assessment.
+        description: Date the order was placed.
         tests:
           - not_null
 
-      - name: sales_reason_pk
-        description: >
-          Primary key from the sales reason dimension. Identifies the reason 
-          associated with the sales order (e.g., 'Marketing Campaign', 'Promotion'). 
-          If no reason is associated, a default value of -1 is assigned.
-        tests:
-          - not_null
+      - name: gross_total_by_order
+        description: Total gross value of the order before discounts.
+
+      - name: net_total_by_order
+        description: Total net value of the order after discounts.
+
+      - name: total_quantity_by_order
+        description: Total number of items in the order.
+
+      - name: sales_reason_fk
+        description: Foreign key referencing the reason for the order.
 
       - name: name_reason
-        description: >
-          The descriptive name of the sales reason tied to the order, such as 
-          'Television Advertisement', 'Discount Offer', or 'Referral'. When 
-          absent, the default value is 'Não Informado'.
-        tests:
-          - not_null
+        description: Name/description of the sales reason.
 
       - name: type_reason
-        description: >
-          The category of the sales reason, such as 'Marketing', 'Promotion', or 
-          'Other'. When no type is associated with the record, the value defaults 
-          to 'Não Informado'.
-        tests:
-          - not_null
+        description: Type/category of the sales reason.
 
       - name: card_type
-        description: >
-          The type of credit card used in the transaction (e.g., 'Visa', 
-          'MasterCard'). If the credit card is missing or unavailable, the 
-          value defaults to 'Não Informado'.
-        tests:
-          - not_null
+        description: Type of credit card used (e.g., Visa, MasterCard).
 
       - name: card_number
-        description: >
-          A masked version of the customer's credit card number (e.g., 
-          'XXXX-XXXX-XXXX-1234'). Used for analytics while protecting 
-          sensitive PII. Defaulted to 'Não Informado' if card is not available.
+        description: Masked or last digits of the credit card number.
+
+      - name: product_fk
+        description: Foreign key referencing the product sold in the order.
         tests:
           - not_null
 
-      - name: total_orders
-        description: >
-          The count of distinct sales orders included in the aggregation. 
-          Useful for calculating KPIs like average order value or sales volume.
-        tests:
-          - not_null
-
-      - name: total_quantity
-        description: >
-          The total number of product units sold within the aggregated sales order. 
-          Essential for understanding volume trends, customer demand, and 
-          inventory impact.
-        tests:
-          - not_null
-
-      - name: gross_total
-        description: >
-          The total revenue generated from the sales order before any discounts 
-          are applied. Calculated as unit price multiplied by quantity.
-        tests:
-          - not_null
-
-      - name: net_total
-        description: >
-          The final revenue amount after applying all relevant discounts. 
-          Represents the true financial value of the transaction to the business.
-        tests:
-          - not_null
+      - name: row_num_per_order
+        description: Row number per order used for deduplication or selection logic.
