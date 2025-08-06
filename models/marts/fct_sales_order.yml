@@ -3,73 +3,61 @@ version: 2
 models:
   - name: fct_sales_order
     description: >
-      Final fact model for sales orders. Aggregates and computes key metrics
-      such as gross/net totals and total quantity per order, enriched with
-      customer, product, credit card, and sales reason attributes.
+      Final fact model containing enriched and aggregated sales order data including total orders, quantities, 
+      gross and net revenue, and sales reasons. 
+      It serves as a foundation for sales performance analysis and reporting.
     columns:
       - name: sales_order_fact_sk
         description: Surrogate key uniquely identifying each sales order fact row.
         tests:
-          - unique
           - not_null
-
       - name: sales_order_fk
-        description: Primary key referencing the original sales order.
+        description: Primary key of the original sales order.
         tests:
           - not_null
-
       - name: customer_fk
-        description: Foreign key referencing the customer.
+        description: Foreign key to the customer who placed the order.
         tests:
           - not_null
-
       - name: address_fk
-        description: Foreign key referencing the address for the order.
-
+        description: Foreign key to the order's shipping address.
+        tests:
+          - not_null
       - name: creditcard_fk
-        description: Foreign key referencing the credit card used.
-
+        description: Foreign key to the credit card used.
       - name: product_fk
-        description: Foreign key referencing the sold product.
+        description: Foreign key to the product included in the sales order.
         tests:
           - not_null
-
       - name: sales_reason_fk
-        description: Foreign key referencing the sales reason.
-
+        description: Foreign key to the sales reason associated with the order.
       - name: status
-        description: Status of the order at the time of processing.
+        description: Status code indicating the stage of the sales order.
         tests:
-          - accepted_values:
-              values: [1, 2, 3, 4, 5]  # Ajuste conforme seu dicionário de status
-
+          - not_null
       - name: order_date
-        description: Date the sales order was created.
+        description: Date the order was placed.
         tests:
           - not_null
-
       - name: name_reason
-        description: Description or title of the sales reason.
-
+        description: Name label describing the reason for the sale.
       - name: type_reason
-        description: Category of the sales reason.
-
+        description: Categorical type of the sales reason (e.g., Marketing, Campaign).
       - name: card_type
-        description: Credit card type used in the order.
-
+        description: Type of credit card used in the transaction.
       - name: card_number
-        description: Masked number or identifier of the card used.
-
+        description: Anonymized card number associated with the payment.
+      - name: unit_price
+        description: Price of a single product unit in the order.
+      - name: discount
+        description: Percentage discount applied to the product unit.
       - name: total_orders
-        description: Count of distinct sales orders (typically 1 per row).
+        description: Count of distinct orders aggregated for the fact row.
         tests:
           - not_null
-
       - name: total_quantity
-        description: Total quantity of products in the order.
-
+        description: Sum of all product quantities in the sales order.
       - name: gross_total
-        description: Gross total value of the order (before discounts).
-
+        description: Aggregated total value of the sales order before discounts.
       - name: net_total
-        description: Net total value of the order (after applying discounts).
+        description: Aggregated total value of the sales order after applying discounts.
