@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: int_fct_sales_order
+    description: "A fact table containing aggregated sales metrics at the order and sales reason level."
+    columns:
+      - name: sk_sales_order_fact
+        description: "Surrogate key for the fact sales table, ensuring each record is uniquely identified."
+        tests:
+          - unique
+          - not_null
+
+      - name: sales_order_fk
+        description: "Foreign key to the sales order, representing the natural key from the source system."
+        tests:
+          - not_null
+      
+      - name: customer_fk
+        description: "Foreign key to the customer dimension table."
+        tests:
+          - not_null
+
+      - name: address_fk
+        description: "Foreign key to the address dimension table."
+        tests:
+          - not_null
+
+      - name: creditcard_fk
+        description: "Foreign key to the credit card dimension table."
+        tests:
+          - not_null
+
+
+      - name: status
+        description: "The status of the sales order (e.g., Shipped, In Process)."
+        tests:
+          - not_null
+
+      - name: order_date
+        description: "The date when the sales order was placed."
+        tests:
+          - not_null
+
+      - name: sales_reason_pk
+        description: "Primary key for the sales reason dimension. Defaulted to -1 if no reason is associated."
+        tests:
+          - not_null
+
+      - name: name_reason
+        description: "The name of the sales reason (e.g., 'Promotion'). Defaulted to 'Não Informado' if no reason is associated."
+        tests:
+          - not_null
+
+      - name: type_reason
+        description: "The type of the sales reason. Defaulted to 'Não Informado' if no reason is associated."
+        tests:
+          - not_null
+
+      - name: card_type
+        description: "The type of the credit card used for the payment. Defaulted to 'Não Informado' if no card is associated."
+        tests:
+          - not_null
+      
+      - name: card_number
+        description: "The masked credit card number. Defaulted to 'Não Informado' if no card is associated."
+        tests:
+          - not_null
+
+      - name: total_orders
+        description: "Count of distinct sales orders in this aggregated record."
+        tests:
+          - not_null
+
+      - name: total_quantity
+        description: "The total quantity of all items in the sales order."
+        tests:
+          - not_null
+      
+      - name: gross_total
+        description: "The total gross value of the sales order before any discounts are applied."
+        tests:
+          - not_null
+
+      - name: net_total
+        description: "The total net value of the sales order after all discounts are applied."
+        tests:
+          - not_null

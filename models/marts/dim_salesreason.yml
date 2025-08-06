@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: int_sales_reason
+  - name: idim_salesreason
     description: "Dimension model for categorizing sales reasons used in order analysis."
 
     columns:
