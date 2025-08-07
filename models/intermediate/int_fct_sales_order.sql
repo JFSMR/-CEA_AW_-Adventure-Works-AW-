@@ -87,6 +87,7 @@ joined as (
     , sod.product_fk
     , sod.unit_price
     , sod.discount
+    , sod.order_quantity 
     , row_number() over (partition by oh.salesorder_pk order by b.sales_reason_fk) as row_num_per_order
   from orderheader oh
   left join sales_aggregated sa on oh.salesorder_pk = sa.sales_order_fk
@@ -114,6 +115,7 @@ metrics as (
     , card_number
     , unit_price
     , discount
+    , order_quantity
     , count(distinct sales_order_fk) as total_orders
     , sum(total_quantity_by_order) as total_quantity
     , sum(case when row_num_per_order = 1 then gross_total_by_order else 0 end) as gross_total
@@ -126,6 +128,7 @@ metrics as (
     , creditcard_fk
     , product_fk
     , sales_reason_fk
+    , order_quantity
     , unit_price
     , discount
     , status
