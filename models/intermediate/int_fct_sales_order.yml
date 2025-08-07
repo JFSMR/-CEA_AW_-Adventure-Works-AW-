@@ -56,3 +56,5 @@ models:
         description: Discount applied to the unit price.
       - name: row_num_per_order
         description: Row number per order to help in deduplication and metric filtering.
+      -  name: order_quantity
+         description: These are ordering orders responsible for the metrics

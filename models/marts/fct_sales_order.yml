@@ -61,3 +61,6 @@ models:
         description: Aggregated total value of the sales order before discounts.
       - name: net_total
         description: Aggregated total value of the sales order after applying discounts.
+      -  name: order_quantity
+         description: These are ordering orders responsible for the metrics
+
