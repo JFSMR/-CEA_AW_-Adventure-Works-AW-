@@ -3,64 +3,100 @@ version: 2
 models:
   - name: fct_sales_order
     description: >
-      Final fact model containing enriched and aggregated sales order data including total orders, quantities, 
-      gross and net revenue, and sales reasons. 
-      It serves as a foundation for sales performance analysis and reporting.
-    columns:
-      - name: sales_order_fact_sk
-        description: Surrogate key uniquely identifying each sales order fact row.
-        tests:
-          - not_null
-      - name: sales_order_fk
-        description: Primary key of the original sales order.
-        tests:
-          - not_null
-      - name: customer_fk
-        description: Foreign key to the customer who placed the order.
-        tests:
-          - not_null
-      - name: address_fk
-        description: Foreign key to the order's shipping address.
-        tests:
-          - not_null
-      - name: creditcard_fk
-        description: Foreign key to the credit card used.
-      - name: product_fk
-        description: Foreign key to the product included in the sales order.
-        tests:
-          - not_null
-      - name: sales_reason_fk
-        description: Foreign key to the sales reason associated with the order.
-      - name: status
-        description: Status code indicating the stage of the sales order.
-        tests:
-          - not_null
-      - name: order_date
-        description: Date the order was placed.
-        tests:
-          - not_null
-      - name: name_reason
-        description: Name label describing the reason for the sale.
-      - name: type_reason
-        description: Categorical type of the sales reason (e.g., Marketing, Campaign).
-      - name: card_type
-        description: Type of credit card used in the transaction.
-      - name: card_number
-        description: Anonymized card number associated with the payment.
-      - name: unit_price
-        description: Price of a single product unit in the order.
-      - name: discount
-        description: Percentage discount applied to the product unit.
-      - name: total_orders
-        description: Count of distinct orders aggregated for the fact row.
-        tests:
-          - not_null
-      - name: total_quantity
-        description: Sum of all product quantities in the sales order.
-      - name: gross_total
-        description: Aggregated total value of the sales order before discounts.
-      - name: net_total
-        description: Aggregated total value of the sales order after applying discounts.
-      -  name: order_quantity
-         description: These are ordering orders responsible for the metrics
+      Fact table containing enriched sales order data, including credit card,
+      product, sales reason, and financial metrics. Null values are handled with
+      default values to ensure consistency.
 
+    columns:
+      # Surrogate Key
+      - name: sales_order_fact_sk
+        description: Surrogate key for the fact table.
+        tests:
+          - not_null
+          - unique
+
+      # Foreign Keys
+      - name: sales_order_id
+        description: Primary key of the sales order.
+        tests:
+          - not_null
+
+      - name: customer_fk
+        description: Foreign key to the customer dimension.
+        tests:
+          - not_null
+
+      - name: address_fk
+        description: Foreign key to the address dimension.
+        tests:
+          - not_null
+
+      - name: creditcard_fk
+        description: Foreign key to the credit card dimension. Defaults to 0 if missing.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0]
+              config:
+                where: "creditcard_fk = 0"
+
+      - name: sales_reason_fk
+        description: Foreign key to the sales reason dimension. Defaults to -1 if missing.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [-1]
+              config:
+                where: "sales_reason_fk = -1"
+
+      - name: product_fk
+        description: Foreign key to the product dimension.
+        tests:
+          - not_null
+
+      # Dimensions
+      - name: card_type
+        description: Type of the credit card used.
+        tests:
+          - not_null
+
+      - name: card_number
+        description: Credit card number used in the transaction.
+        tests:
+          - not_null
+
+      - name: name_reason
+        description: Name of the sales reason. Defaults to 'Not Provided' if missing.
+        tests:
+          - not_null
+
+      - name: type_reason
+        description: Type of the sales reason. Defaults to 'Not Provided' if missing.
+        tests:
+          - not_null
+
+      - name: order_date
+        description: Date when the order was placed.
+        tests:
+          - not_null
+
+      - name: status
+        description: Status code of the order.
+        tests:
+          - not_null
+
+      # Metrics
+      - name: total_quantity
+        description: Total quantity of items in the order.
+        tests:
+          - not_null
+
+      - name: gross_total
+        description: Gross total value of the order before discounts.
+        tests:
+          - not_null
+
+      - name: net_total
+        description: Net total value of the order after discounts.
+        tests:
+          - not_null

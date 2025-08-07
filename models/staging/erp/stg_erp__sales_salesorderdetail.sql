@@ -17,7 +17,7 @@ renamed as (
       , CAST(specialofferid AS INT)                                               AS specialoffer_fk            
       , CAST(orderqty AS INT)                                                     AS order_quantity             
       , CAST(unitprice AS NUMERIC(18,4))                                          AS unit_price                 
-      , CAST(unitpricediscount AS NUMERIC(18,4))                                  AS unitpricediscount          
+      , CAST(unitpricediscount AS NUMERIC(18,2))                                  AS unitpricediscount          
 
 
     from source
