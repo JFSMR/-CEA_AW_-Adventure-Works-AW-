@@ -106,7 +106,9 @@ metrics as (
         , name_reason
         , type_reason
         , order_date
-        , status
+        , case 
+            when status = 5 then 'Shipped'
+        end as status  
         , case when row_num = 1 then total_quantity else 0 end as total_quantity
         , case when row_num = 1 then gross_total else 0 end as gross_total
         , case when row_num = 1 then net_total else 0 end as net_total

@@ -3,19 +3,18 @@ version: 2
 models:
   - name: int_fct_sales_order
     description: >
-      Fact table containing enriched sales order data, including credit card,
+      Intermediate fact table containing enriched sales order data, including credit card,
       product, sales reason, and financial metrics. Null values are handled with
-      default values to ensure consistency.
+      default values to ensure consistency. The 'status' field is mapped from codes
+      to descriptive text (e.g., 'Shipped' when status = 5).
 
     columns:
-      # Surrogate Key
       - name: sales_order_fact_sk
-        description: Surrogate key for the fact table.
+        description: Surrogate key for the fact table, unique per sales order and reason.
         tests:
           - not_null
           - unique
 
-      # Foreign Keys
       - name: sales_order_id
         description: Primary key of the sales order.
         tests:
@@ -35,43 +34,42 @@ models:
         description: Foreign key to the credit card dimension. Defaults to 0 if missing.
         tests:
           - not_null
-          - accepted_values:
-              values: [0]
-              config:
-                where: "creditcard_fk = 0"
+          - relationships:
+              to: ref('int_creditcard')
+              field: creditcard_pk
+              where: "creditcard_fk != 0"
 
       - name: sales_reason_fk
         description: Foreign key to the sales reason dimension. Defaults to -1 if missing.
         tests:
           - not_null
-          - accepted_values:
-              values: [-1]
-              config:
-                where: "sales_reason_fk = -1"
+          - relationships:
+              to: ref('int_sales_reason')
+              field: sales_reason_pk
+              where: "sales_reason_fk != -1"
 
       - name: product_fk
         description: Foreign key to the product dimension.
         tests:
           - not_null
 
-      # Dimensions
       - name: card_type
-        description: Type of the credit card used.
+        description: Type of the credit card used. Defaults to 'Not Provided'.
         tests:
           - not_null
 
       - name: card_number
-        description: Credit card number used in the transaction.
+        description: Credit card number used in the transaction. Defaults to '0000-0000-0000-0000'.
         tests:
           - not_null
 
       - name: name_reason
-        description: Name of the sales reason. Defaults to 'Not Provided' if missing.
+        description: Name of the sales reason. Defaults to 'Not Provided'.
         tests:
           - not_null
 
       - name: type_reason
-        description: Type of the sales reason. Defaults to 'Not Provided' if missing.
+        description: Type of the sales reason. Defaults to 'Not Provided'.
         tests:
           - not_null
 
@@ -81,22 +79,23 @@ models:
           - not_null
 
       - name: status
-        description: Status code of the order.
+        description: >
+          Textual status of the order. Mapped from original codes (e.g., 'Shipped' for 5).
+          Can be null if no mapping applies.
         tests:
           - not_null
 
-      # Metrics
       - name: total_quantity
-        description: Total quantity of items in the order.
+        description: Total quantity of items in the order (non-zero only for primary row).
         tests:
           - not_null
 
       - name: gross_total
-        description: Gross total value of the order before discounts.
+        description: Gross total value of the order before discounts (non-zero only for primary row).
         tests:
           - not_null
 
       - name: net_total
-        description: Net total value of the order after discounts.
+        description: Net total value of the order after discounts (non-zero only for primary row).
         tests:
           - not_null
