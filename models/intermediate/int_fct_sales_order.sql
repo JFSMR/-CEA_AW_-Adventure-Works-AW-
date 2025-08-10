@@ -7,6 +7,7 @@ with order_header as (
         , address_fk                                   
         , coalesce(creditcard_fk, 0) as creditcard_fk  
         , coalesce(salesperson_fk, 0) as salesperson_fk
+        , ship_date 
         , order_date
         , status
     from {{ ref('stg_erp__sales_salesorderheader') }}
@@ -20,6 +21,7 @@ sales_order_detail as (
         , order_quantity
         , unit_price
         , unitpricediscount as discount
+        
     from {{ ref('stg_erp__sales_salesorderdetail') }}
 ),
 
@@ -75,6 +77,7 @@ joined as (
         , sod.product_fk                     
         , oh.order_date
         , oh.status
+        , oh.ship_date
         , sa.total_quantity
         , sa.gross_total
         , sa.net_total
@@ -106,6 +109,7 @@ metrics as (
         , name_reason
         , type_reason
         , order_date
+        , ship_date
         , case 
             when status = 5 then 'Shipped'
         end as status  
