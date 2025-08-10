@@ -25,7 +25,7 @@ source as (
 --Colunas técnicas ou complementares que não respondem diretamente às perguntas
   
  --, CAST(productline AS VARCHAR)                   AS product_line
- , CAST(productnumber AS VARCHAR)                 AS product_number   
+ --, CAST(productnumber AS VARCHAR)                 AS product_number   
  --, CAST(class AS VARCHAR)                         AS class
  --, CAST(style AS VARCHAR)                          AS style
  --, CAST(color AS VARCHAR)                          AS color
