@@ -50,34 +50,21 @@ O modelo segue a abordagem estrela (*Star Schema*) com as seguintes tabelas:
 - Pedidos realizados: 21,45 mil  
 - Produtos vendidos: 274,91 mil  
 - Faturamento bruto: $110,37 milhões
-- Valor liquido negociado $ 109,84 milhões
+- Faturamento liquido: $109,84 milhões  
+
 
 ---
 
-## Insights Estratégicos
-- Ticket médio elevado: concentrar esforços em produtos com maior margem de lucro.  
-- Promoções eficazes: campanhas bem direcionadas aumentam significativamente o volume vendido.  
-- Potencial regional: cidades como Toronto, Londres e Paris concentram alta receita.  
-- Perfil de clientes: top 10 clientes representam parcela relevante do faturamento total.
+## Analise  Estratégicos
+- Produtos com alto ticket médio concentram grande parte da receita, sugerindo foco de marketing nesses itens.  
+- Promoções têm impacto significativo no volume de vendas, reforçando a importância de segmentação correta.  
+- As cidades líderes em faturamento indicam mercados prioritários para expansão Toronto (Canadá), London (Reino Unido), Paris (França), Seattle (EUA), Burnaby (Canadá).  
+- O top 10 de clientes representa uma fatia relevante do faturamento, apontando potencial para programas de fidelidade.
+- Produtos com maior ticket médio: Road 150 Red, Mountain-100 Silver.
 
----
 
-## Dashboards no Power BI
 
-### Visão Geral
-![Página de Visão Geral](prints/6bbd2b26-7edb-46b0-a40d-abf27c00be7a.png)
 
-### Produtos
-![Página de Produtos](prints/983efbeb-e3a2-460c-b395-cd4053bca48a.png)
 
-### Clientes
-![Página de Clientes](prints/8eca00b8-ae3e-4f19-b701-c50e97951b70.png)
 
-### Cidades
-![Página de Cidades](prints/f3a6f3a3-9d6d-4778-a782-9d04e0979265.png)
 
-### Performance
-![Página de Performance](prints/4a3a1c67-afa0-494a-8ec0-92a37ece3ff4.png)
-
-### Promoção
-![Página de Promoção](prints/707912a3-1d89-4267-acd0-f2af907ff3b6.png)
