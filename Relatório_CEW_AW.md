@@ -49,7 +49,8 @@ O modelo segue a abordagem estrela (*Star Schema*) com as seguintes tabelas:
 ## Métricas Consolidadas (2011–2014)
 - Pedidos realizados: 21,45 mil  
 - Produtos vendidos: 274,91 mil  
-- Faturamento bruto: $110,37 milhões  
+- Faturamento bruto: $110,37 milhões
+- Valor liquido negociado $ 109,84 milhões
 
 ---
 
